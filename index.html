@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Research Media Library</title>
+    <title>Shark Tank Library</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -23,6 +23,12 @@
             --spacing-sm: 8px;
             --spacing-md: 16px;
             --spacing-lg: 24px;
+
+            /* Badge Colors */
+            --badge-f-bg: rgba(236, 72, 153, 0.15);
+            --badge-f-text: #f472b6;
+            --badge-m-bg: rgba(96, 165, 250, 0.15);
+            --badge-m-text: #60a5fa;
         }
 
         * {
@@ -44,7 +50,7 @@
 
         /* Sidebar */
         .sidebar {
-            width: 300px;
+            width: 320px;
             background-color: var(--bg-sidebar);
             border-right: 1px solid var(--border);
             display: flex;
@@ -118,29 +124,42 @@
 
         .episode-item.active {
             background-color: var(--bg-active);
-            color: white;
-            font-weight: 500;
+            box-shadow: 0 0 0 1px var(--border);
+        }
+
+        .episode-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            overflow: hidden;
+            flex: 1;
         }
 
         .episode-name {
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            color: var(--text-main);
         }
 
-        .episode-status {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--text-muted);
-            opacity: 0.5;
+        .episode-item.active .episode-name {
+            font-weight: 500;
+            color: white;
         }
 
-        .episode-item.active .episode-status {
-            background: #4ade80; /* Green dot for active */
-            opacity: 1;
+        .badge {
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            flex-shrink: 0;
         }
 
+        .badge-f { background: var(--badge-f-bg); color: var(--badge-f-text); }
+        .badge-m { background: var(--badge-m-bg); color: var(--badge-m-text); }
+        
         /* Main Content */
         .main-content {
             flex: 1;
@@ -162,19 +181,40 @@
         .content-header {
             padding: var(--spacing-lg);
             border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(15, 15, 15, 0.8);
+            background: rgba(15, 15, 15, 0.9);
             backdrop-filter: blur(10px);
             position: sticky;
             top: 0;
             z-index: 10;
         }
 
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 4px;
+        }
+
         .current-title {
             font-size: 20px;
             font-weight: 600;
+            color: white;
+        }
+
+        .current-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .meta-divider {
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            background: var(--text-muted);
+            opacity: 0.5;
         }
 
         .view-controls {
@@ -215,8 +255,7 @@
             max-width: 1200px;
             margin: 0 auto;
             width: 100%;
-            height: 100%;
-            justify-content: center;
+            flex: 1;
         }
 
         /* Video Player Wrapper */
@@ -364,7 +403,7 @@
             font-size: 12px;
             font-weight: 600;
         }
-
+        
         .volume-container {
             display: flex;
             align-items: center;
@@ -407,9 +446,32 @@
         .metadata h3 {
             font-size: 14px;
             color: var(--text-muted);
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+        }
+
+        .meta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .meta-label {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .meta-value {
+            font-size: 14px;
+            color: var(--text-main);
+            font-weight: 500;
         }
 
         .file-path {
@@ -422,6 +484,8 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            margin-top: 16px;
+            overflow-x: auto;
         }
         
         /* Mobile responsive */
@@ -482,10 +546,21 @@
 
         <div id="playerView" style="display: none;">
             <header class="content-header">
-                <h2 class="current-title" id="activeTitle">Episode Title</h2>
-                <div class="view-controls">
-                    <button class="view-btn active" data-type="pitch" onclick="switchVideoType('pitch')">Pitch</button>
-                    <button class="view-btn" data-type="full" onclick="switchVideoType('full')">Full</button>
+                <div class="header-top">
+                    <div>
+                        <h2 class="current-title" id="activeTitle">Episode Title</h2>
+                        <div class="current-meta">
+                            <span id="metaFounder">Founder Name</span>
+                            <span class="meta-divider"></span>
+                            <span id="metaSeason">Season --</span>
+                            <span class="meta-divider"></span>
+                            <span id="metaEpisode">Episode --</span>
+                        </div>
+                    </div>
+                    <div class="view-controls">
+                        <button class="view-btn active" data-type="pitch" onclick="switchVideoType('pitch')">Pitch</button>
+                        <button class="view-btn" data-type="full" onclick="switchVideoType('full')">Full</button>
+                    </div>
                 </div>
             </header>
 
@@ -510,7 +585,6 @@
                         <div class="controls-row">
                             <div class="controls-left">
                                 <button class="icon-btn" id="playPauseBtn">
-                                    <!-- Icons swapped by JS -->
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"></polygon></svg>
                                 </button>
                                 
@@ -543,7 +617,26 @@
                 </div>
 
                 <div class="metadata">
-                    <h3>File Details</h3>
+                    <h3>Research Data</h3>
+                    <div class="meta-grid">
+                        <div class="meta-item">
+                            <span class="meta-label">Founder</span>
+                            <span class="meta-value" id="gridFounder">--</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Gender</span>
+                            <span class="meta-value" id="gridGender">--</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Season</span>
+                            <span class="meta-value" id="gridSeason">--</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Episode</span>
+                            <span class="meta-value" id="gridEpisode">--</span>
+                        </div>
+                    </div>
+
                     <div class="file-path">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
@@ -558,8 +651,8 @@
 
     <script>
         // --- DATA ---
-        // Exactly matching the provided folder structure
-        const episodes = [
+        // Basic folder structure
+        let episodes = [
             { name: "180 CUP", folder: "180 CUP" },
             { name: "Alaska Glacial Mud", folder: "alaska glacial mud" },
             { name: "Balloon Distractions", folder: "Balloon Distractions" },
@@ -570,7 +663,7 @@
             { name: "Schulzies Bread Pudding", folder: "Schulzies Bread Pudding" },
             { name: "Slawsa", folder: "slawsa" },
             { name: "Ten Thirty One Productions", folder: "Ten Thirty One Productions" }
-        ].sort((a, b) => a.name.localeCompare(b.name));
+        ];
 
         // --- STATE ---
         let currentEpisode = null;
@@ -599,8 +692,22 @@
         const currentFilePath = document.getElementById('currentFilePath');
         const typeButtons = document.querySelectorAll('.view-btn');
 
+        // Metadata Elements
+        const metaFounder = document.getElementById('metaFounder');
+        const metaSeason = document.getElementById('metaSeason');
+        const metaEpisode = document.getElementById('metaEpisode');
+        const gridFounder = document.getElementById('gridFounder');
+        const gridGender = document.getElementById('gridGender');
+        const gridSeason = document.getElementById('gridSeason');
+        const gridEpisode = document.getElementById('gridEpisode');
+
         // --- INITIALIZATION ---
-        function init() {
+        async function init() {
+            // Load CSV Data
+            await loadCSVData();
+            
+            // Render
+            episodes.sort((a, b) => a.name.localeCompare(b.name));
             renderList(episodes);
             
             // Search Listener
@@ -656,6 +763,45 @@
             });
         }
 
+        // --- CSV LOADING ---
+        async function loadCSVData() {
+            try {
+                // Fetch the CSV file from root
+                const response = await fetch('Shark%20tank%20research.csv');
+                if (!response.ok) throw new Error("CSV not found");
+                const text = await response.text();
+                
+                // Simple CSV Parser
+                const lines = text.split('\n').map(l => l.trim()).filter(l => l);
+                // Skip header
+                const data = lines.slice(1).map(line => {
+                    // Handle commas inside quotes if complex, but simple split matches file format
+                    const cols = line.split(','); 
+                    if (cols.length < 5) return null;
+                    return {
+                        name: cols[0],
+                        founder: cols[1],
+                        gender: cols[2],
+                        season: cols[3],
+                        episode: cols[4]
+                    };
+                }).filter(x => x);
+
+                // Merge with episodes
+                episodes = episodes.map(ep => {
+                    // Find matching CSV entry (case insensitive)
+                    const match = data.find(d => d.name.toLowerCase() === ep.name.toLowerCase());
+                    if (match) {
+                        return { ...ep, ...match };
+                    }
+                    return ep;
+                });
+
+            } catch (err) {
+                console.warn("Could not load research CSV. Running with basic data.", err);
+            }
+        }
+
         // --- RENDER FUNCTIONS ---
         function renderList(items) {
             episodeListEl.innerHTML = '';
@@ -663,9 +809,19 @@
                 const div = document.createElement('div');
                 div.className = `episode-item ${currentEpisode === ep ? 'active' : ''}`;
                 div.onclick = () => loadEpisode(ep);
+                
+                let badge = '';
+                if (ep.gender) {
+                    const g = ep.gender.toUpperCase();
+                    const cls = g === 'F' ? 'badge-f' : (g === 'M' ? 'badge-m' : '');
+                    badge = `<span class="badge ${cls}">${g}</span>`;
+                }
+
                 div.innerHTML = `
-                    <span class="episode-name">${ep.name}</span>
-                    <div class="episode-status"></div>
+                    <div class="episode-info">
+                        <span class="episode-name">${ep.name}</span>
+                    </div>
+                    ${badge}
                 `;
                 episodeListEl.appendChild(div);
             });
@@ -676,12 +832,21 @@
             currentEpisode = ep;
             welcomeState.style.display = 'none';
             playerView.style.display = 'block';
-            activeTitle.textContent = ep.name;
             
+            // Populate Metadata
+            activeTitle.textContent = ep.name;
+            metaFounder.textContent = ep.founder || "Unknown Founder";
+            metaSeason.textContent = `Season ${ep.season || '-'}`;
+            metaEpisode.textContent = `Episode ${ep.episode || '-'}`;
+
+            gridFounder.textContent = ep.founder || "-";
+            gridGender.textContent = ep.gender || "-";
+            gridSeason.textContent = ep.season || "-";
+            gridEpisode.textContent = ep.episode || "-";
+
             // Re-render list to show active state
-            renderList(episodes.filter(e => 
-                e.name.toLowerCase().includes(searchInput.value.toLowerCase())
-            ));
+            const term = searchInput.value.toLowerCase();
+            renderList(episodes.filter(e => e.name.toLowerCase().includes(term)));
             
             loadVideoSource();
         }
@@ -702,13 +867,12 @@
             if (!currentEpisode) return;
             
             const filename = currentType === 'pitch' ? 'pitch.mp4' : 'full.mp4';
-            // Encode URI component for the folder part to handle spaces correctly
             const path = `${currentEpisode.folder}/${filename}`;
             const encodedPath = encodeURI(path);
             
             const wasPlaying = !video.paused;
             video.src = encodedPath;
-            currentFilePath.textContent = path; // Show raw path for reference
+            currentFilePath.textContent = path;
             
             // Reset state
             video.playbackRate = speeds[currentSpeedIdx];
@@ -770,7 +934,6 @@
         }
 
         function updateVolumeUI() {
-            // Update icon
             if (video.muted || video.volume === 0) {
                 muteBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11,5 6,9 2,9 2,15 6,15 11,19"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>';
                 volumeSlider.value = video.muted ? 0 : video.volume;
