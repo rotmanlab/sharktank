@@ -365,6 +365,37 @@
             font-weight: 600;
         }
 
+        .volume-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .volume-slider {
+            width: 80px;
+            height: 4px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: rgba(255,255,255,0.2);
+            border-radius: 2px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 12px;
+            height: 12px;
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        .volume-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
         .metadata {
             margin-top: 20px;
             padding: 20px;
@@ -453,8 +484,8 @@
             <header class="content-header">
                 <h2 class="current-title" id="activeTitle">Episode Title</h2>
                 <div class="view-controls">
-                    <button class="view-btn active" data-type="pitch" onclick="switchVideoType('pitch')">Pitch Clip</button>
-                    <button class="view-btn" data-type="full" onclick="switchVideoType('full')">Full Episode</button>
+                    <button class="view-btn active" data-type="pitch" onclick="switchVideoType('pitch')">Pitch</button>
+                    <button class="view-btn" data-type="full" onclick="switchVideoType('full')">Full</button>
                 </div>
             </header>
 
@@ -491,12 +522,15 @@
                             <div class="controls-right">
                                 <button class="icon-btn speed-btn" id="speedBtn" title="Playback Speed">1.0x</button>
                                 
-                                <button class="icon-btn" id="muteBtn" title="Mute">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <polygon points="11,5 6,9 2,9 2,15 6,15 11,19"></polygon>
-                                        <path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"></path>
-                                    </svg>
-                                </button>
+                                <div class="volume-container">
+                                    <button class="icon-btn" id="muteBtn" title="Mute">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polygon points="11,5 6,9 2,9 2,15 6,15 11,19"></polygon>
+                                            <path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"></path>
+                                        </svg>
+                                    </button>
+                                    <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.05" value="1" title="Volume">
+                                </div>
 
                                 <button class="icon-btn" id="fullscreenBtn" title="Fullscreen">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -560,6 +594,7 @@
         const durationEl = document.getElementById('duration');
         const speedBtn = document.getElementById('speedBtn');
         const muteBtn = document.getElementById('muteBtn');
+        const volumeSlider = document.getElementById('volumeSlider');
         const fullscreenBtn = document.getElementById('fullscreenBtn');
         const currentFilePath = document.getElementById('currentFilePath');
         const typeButtons = document.querySelectorAll('.view-btn');
@@ -592,6 +627,7 @@
             
             speedBtn.addEventListener('click', cycleSpeed);
             muteBtn.addEventListener('click', toggleMute);
+            volumeSlider.addEventListener('input', handleVolumeChange);
             fullscreenBtn.addEventListener('click', toggleFullscreen);
 
             // Keyboard Shortcuts
@@ -723,9 +759,25 @@
 
         function toggleMute() {
             video.muted = !video.muted;
-            muteBtn.innerHTML = video.muted 
-                ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11,5 6,9 2,9 2,15 6,15 11,19"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>'
-                : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11,5 6,9 2,9 2,15 6,15 11,19"></polygon><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"></path></svg>';
+            updateVolumeUI();
+        }
+
+        function handleVolumeChange(e) {
+            const vol = parseFloat(e.target.value);
+            video.volume = vol;
+            video.muted = vol === 0;
+            updateVolumeUI();
+        }
+
+        function updateVolumeUI() {
+            // Update icon
+            if (video.muted || video.volume === 0) {
+                muteBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11,5 6,9 2,9 2,15 6,15 11,19"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>';
+                volumeSlider.value = video.muted ? 0 : video.volume;
+            } else {
+                muteBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11,5 6,9 2,9 2,15 6,15 11,19"></polygon><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"></path></svg>';
+                volumeSlider.value = video.volume;
+            }
         }
 
         function toggleFullscreen() {
