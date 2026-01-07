@@ -296,6 +296,40 @@
             opacity: 1;
         }
 
+        /* Loading Spinner */
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+        }
+
+        .video-wrapper.loading .loading-overlay {
+            opacity: 1;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
         /* Progress Bar */
         .progress-bar-container {
             width: 100%;
@@ -306,12 +340,25 @@
             position: relative;
         }
 
+        .buffer-bar {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            background: rgba(255,255,255,0.3);
+            border-radius: 3px;
+            width: 0%;
+            transition: width 0.2s;
+            pointer-events: none;
+        }
+
         .progress-bar-fill {
             height: 100%;
             background: white;
             border-radius: 3px;
             width: 0%;
             position: relative;
+            z-index: 2;
         }
 
         .progress-bar-container:hover .progress-bar-fill::after {
@@ -577,8 +624,13 @@
                         </svg>
                     </div>
 
+                    <div class="loading-overlay">
+                        <div class="spinner"></div>
+                    </div>
+
                     <div class="video-controls">
                         <div class="progress-bar-container" id="progressBar">
+                            <div class="buffer-bar" id="bufferBar"></div>
                             <div class="progress-bar-fill" id="progressFill"></div>
                         </div>
                         
@@ -689,6 +741,7 @@
         const bigPlayBtn = document.getElementById('bigPlayBtn');
         const progressBar = document.getElementById('progressBar');
         const progressFill = document.getElementById('progressFill');
+        const bufferBar = document.getElementById('bufferBar');
         const currentTimeEl = document.getElementById('currentTime');
         const durationEl = document.getElementById('duration');
         const speedBtn = document.getElementById('speedBtn');
@@ -732,6 +785,13 @@
             video.addEventListener('loadedmetadata', () => {
                 durationEl.textContent = formatTime(video.duration);
             });
+            
+            // Loading State Events
+            video.addEventListener('loadstart', () => setLoading(true));
+            video.addEventListener('waiting', () => setLoading(true));
+            video.addEventListener('canplay', () => setLoading(false));
+            video.addEventListener('playing', () => setLoading(false));
+            video.addEventListener('progress', updateBuffer);
             
             video.addEventListener('play', updatePlayState);
             video.addEventListener('pause', updatePlayState);
@@ -882,10 +942,46 @@
             
             // Reset state
             video.playbackRate = speeds[currentSpeedIdx];
-            if (wasPlaying) video.play();
+            setLoading(true); // Show spinner immediately when switching source
+            
+            // Clear previous buffer display
+            bufferBar.style.width = '0%';
+            progressFill.style.width = '0%';
+            currentTimeEl.textContent = '0:00';
+            durationEl.textContent = '--:--';
+            
+            if (wasPlaying) {
+                video.play().catch(() => {
+                    // Auto-play might fail if not interacted with, just update UI
+                    updatePlayState();
+                    setLoading(false);
+                });
+            } else {
+                setLoading(false); // If we're not trying to play, we don't need the spinner immediately
+            }
         }
 
         // --- PLAYER CONTROLS ---
+        function setLoading(isLoading) {
+            if (isLoading) {
+                videoWrapper.classList.add('loading');
+            } else {
+                videoWrapper.classList.remove('loading');
+            }
+        }
+
+        function updateBuffer() {
+            if (video.duration > 0) {
+                for (let i = 0; i < video.buffered.length; i++) {
+                    if (video.buffered.start(i) <= video.currentTime && video.buffered.end(i) >= video.currentTime) {
+                        const percent = (video.buffered.end(i) / video.duration) * 100;
+                        bufferBar.style.width = `${percent}%`;
+                        break;
+                    }
+                }
+            }
+        }
+
         function togglePlay() {
             if (video.paused) video.play();
             else video.pause();
