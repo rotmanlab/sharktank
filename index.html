@@ -78,6 +78,51 @@
 
         .search-container {
             position: relative;
+            margin-bottom: 12px;
+        }
+
+        .filter-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .filter-group {
+            display: flex;
+            background: var(--bg-app);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 2px;
+            flex: 1; /* Distribute space evenly */
+        }
+
+        .filter-toggle {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 11px;
+            font-weight: 600;
+            padding: 6px;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .filter-toggle:hover {
+            color: var(--text-main);
+            background: var(--bg-element);
+        }
+
+        .filter-toggle.active {
+            background: var(--bg-active);
+            color: white;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
         }
 
         .search-input {
@@ -607,6 +652,27 @@
                 </svg>
                 <input type="text" id="searchInput" class="search-input" placeholder="Filter episodes...">
             </div>
+            <div class="filter-row">
+                <div class="filter-group" id="genderGroup">
+                    <button class="filter-toggle active" data-value="all" title="All Genders">All</button>
+                    <button class="filter-toggle" data-value="m" title="Male">M</button>
+                    <button class="filter-toggle" data-value="f" title="Female">F</button>
+                </div>
+                <div class="filter-group" id="dealGroup">
+                    <button class="filter-toggle active" data-value="all" title="All Statuses">All</button>
+                    <button class="filter-toggle" data-value="yes" title="Deal Made">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="1" x2="12" y2="23"></line>
+                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                        </svg>
+                    </button>
+                    <button class="filter-toggle" data-value="no" title="No Deal">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
         </div>
         <div class="episode-list" id="episodeList">
             <!-- Items injected by JS -->
@@ -820,6 +886,9 @@
         const currentFilePath = document.getElementById('currentFilePath');
         const typeButtons = document.querySelectorAll('.view-btn');
 
+        // Filter Elements
+        const filterToggles = document.querySelectorAll('.filter-toggle');
+
         // Metadata Elements
         const metaFounder = document.getElementById('metaFounder');
         const metaSeason = document.getElementById('metaSeason');
@@ -840,10 +909,26 @@
             renderList(episodes);
             
             // Search Listener
-            searchInput.addEventListener('input', (e) => {
-                const term = e.target.value.toLowerCase();
-                const filtered = episodes.filter(ep => ep.name.toLowerCase().includes(term));
-                renderList(filtered);
+            searchInput.addEventListener('input', applyFilters);
+            
+            // Filter Listeners
+            filterToggles.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    // Find the button (handle click on SVG/path inside button)
+                    const targetBtn = e.target.closest('.filter-toggle');
+                    if (!targetBtn) return;
+                    
+                    // Find parent group
+                    const group = targetBtn.closest('.filter-group');
+                    
+                    // Remove active from siblings
+                    group.querySelectorAll('.filter-toggle').forEach(t => t.classList.remove('active'));
+                    
+                    // Add active to clicked
+                    targetBtn.classList.add('active');
+                    
+                    applyFilters();
+                });
             });
 
             // Video Listeners
@@ -943,6 +1028,35 @@
             }
         }
 
+        function applyFilters() {
+            const term = searchInput.value.toLowerCase();
+            
+            // Get active values
+            const g = document.querySelector('#genderGroup .active').dataset.value;
+            const d = document.querySelector('#dealGroup .active').dataset.value;
+
+            const filtered = episodes.filter(ep => {
+                // Name match
+                if (!ep.name.toLowerCase().includes(term)) return false;
+                
+                // Gender match
+                if (g !== 'all') {
+                    if (!ep.gender || ep.gender.toLowerCase() !== g) return false;
+                }
+
+                // Deal match
+                if (d !== 'all') {
+                    const dealVal = (ep.deal || '').toLowerCase();
+                    if (d === 'yes' && dealVal !== 'yes') return false;
+                    if (d === 'no' && dealVal !== 'no') return false;
+                }
+
+                return true;
+            });
+
+            renderList(filtered);
+        }
+
         // --- RENDER FUNCTIONS ---
         function renderList(items) {
             episodeListEl.innerHTML = '';
@@ -1018,8 +1132,7 @@
             gridDeal.textContent = ep.deal || "-";
 
             // Re-render list to show active state
-            const term = searchInput.value.toLowerCase();
-            renderList(episodes.filter(e => e.name.toLowerCase().includes(term)));
+            applyFilters();
             
             loadVideoSource();
         }
