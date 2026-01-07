@@ -599,18 +599,57 @@
             font-weight: 500;
         }
 
+        .file-path-container {
+            margin-top: 16px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 4px;
+            gap: 8px;
+        }
+
         .file-path {
             font-family: monospace;
-            background: rgba(0,0,0,0.3);
-            padding: 8px;
-            border-radius: 4px;
+            padding: 4px 8px;
             color: var(--text-muted);
             font-size: 12px;
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-top: 16px;
             overflow-x: auto;
+            flex: 1;
+        }
+        
+        .copy-actions {
+            display: flex;
+            gap: 4px;
+            flex-shrink: 0;
+        }
+
+        .copy-btn {
+            background: var(--bg-active);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 4px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: var(--bg-element-hover);
+            border-color: var(--text-muted);
+        }
+
+        .copy-btn:active {
+            transform: translateY(1px);
         }
         
         /* Mobile responsive */
@@ -792,12 +831,30 @@
                         </div>
                     </div>
 
-                    <div class="file-path">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
-                            <polyline points="13 2 13 9 20 9"></polyline>
-                        </svg>
-                        <span id="currentFilePath">...</span>
+                    <div class="file-path-container">
+                        <div class="file-path">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                                <polyline points="13 2 13 9 20 9"></polyline>
+                            </svg>
+                            <span id="currentFilePath">...</span>
+                        </div>
+                        <div class="copy-actions">
+                            <button class="copy-btn" id="copyDirectLink" title="Copy Direct Link">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                                </svg>
+                                Direct
+                            </button>
+                            <button class="copy-btn" id="copyQualtricsTag" title="Copy Qualtrics Video Tag">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="16 18 22 12 16 6"></polyline>
+                                    <polyline points="8 6 2 12 8 18"></polyline>
+                                </svg>
+                                Qualtrics
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -812,8 +869,12 @@
             { name: "Alaska Glacial Mud", folder: "alaska glacial mud" },
             { name: "Balloon Distractions", folder: "Balloon Distractions" },
             { name: "BeardBrand", folder: "BeardBrand" },
+            { name: "BedJet", folder: "BedJet" },
+            { name: "Bello Verde", folder: "Bello Verde" },
+            { name: "BeverageBoy", folder: "BeverageBoy" },
             { name: "Biaggi", folder: "Biaggi" },
             { name: "Bon Affair", folder: "Bon Affair" },
+            { name: "Budsies", folder: "Budsies" },
             { name: "Buzzy", folder: "buzzy" },
             { name: "Chapul", folder: "chapul" },
             { name: "Cheek'd", folder: "cheekd" },
@@ -821,26 +882,35 @@
             { name: "Doorbot", folder: "doorbot" },
             { name: "Doorman", folder: "Doorman" },
             { name: "EarthLog", folder: "EarthLog" },
+            { name: "EveDrop", folder: "EveDrop" },
             { name: "Eyebloc", folder: "Eyebloc" },
             { name: "Fairytale Wishes", folder: "fairytale wishes" },
             { name: "FitDeck", folder: "FitDeck" },
             { name: "Fort Magic", folder: "Fort Magic" },
+            { name: "Fresh Patch", folder: "Fresh Patch" },
             { name: "Freshly Picked", folder: "freshly picked" },
+            { name: "FunBites", folder: "FunBites" },
             { name: "Garage Door Lock", folder: "Garage Door Lock" },
+            { name: "Gato Cafe", folder: "Gato Cafe" },
+            { name: "Gold Rush Nugget Bucket", folder: "Gold Rush Nugget Bucket" },
             { name: "Happy Feet", folder: "Happy Feet" },
             { name: "HeartPup", folder: "HeartPup" },
             { name: "Heidi Ho", folder: "Heidi Ho" },
+            { name: "Hoppy Paws", folder: "Hoppy Paws" },
             { name: "LifeCaps", folder: "Life Caps" },
             { name: "Lite-netics", folder: "Lite-netics" },
+            { name: "Lumi", folder: "Lumi" },
             { name: "Man Medals", folder: "Man Medals" },
             { name: "Man-Pack", folder: "Man-Pack" },
             { name: "Mensch on a Bench", folder: "Mensch on a Bench" },
             { name: "Moberi", folder: "moberi" },
             { name: "Myself Belts", folder: "Myself Belts" },
+            { name: "Naja", folder: "Naja" },
             { name: "Nexersys", folder: "Nexersys" },
             { name: "Off the Cob Tortilla Chips", folder: "Off the Cob Tortilla Chips" },
             { name: "Paparazzi Proposals", folder: "paparazzi proposals" },
             { name: "Postcard on the Run", folder: "postcard on the run" },
+            { name: "PullyPalz", folder: "PullyPalz" },
             { name: "Revolights", folder: "Revolights" },
             { name: "Schulzies Bread Pudding", folder: "Schulzies Bread Pudding" },
             { name: "Skinny Shirt", folder: "Skinny Shirt" },
@@ -849,11 +919,14 @@
             { name: "Sunday Night Slow Jams", folder: "Sunday night slow jams" },
             { name: "Table Jack", folder: "Table Jack" },
             { name: "Ten Thirty One Productions", folder: "Ten Thirty One Productions" },
+            { name: "The BoobyPack", folder: "The BoobyPack" },
             { name: "The Caddy Girls", folder: "The Caddy Girls" },
             { name: "The Natural Grip", folder: "The Natural Grip" },
             { name: "The Oilerie", folder: "The Oilerie" },
             { name: "TITIN", folder: "TITIN" },
             { name: "Tree T Pee", folder: "Tree T Pee" },
+            { name: "TurboPup", folder: "TurboPup" },
+            { name: "TycoonRE", folder: "TycoonRE" },
             { name: "Virtuix Omni", folder: "Virtuix" },
             { name: "Zipz", folder: "Zipz" }
         ];
@@ -884,6 +957,8 @@
         const volumeSlider = document.getElementById('volumeSlider');
         const fullscreenBtn = document.getElementById('fullscreenBtn');
         const currentFilePath = document.getElementById('currentFilePath');
+        const copyDirectBtn = document.getElementById('copyDirectLink');
+        const copyQualtricsBtn = document.getElementById('copyQualtricsTag');
         const typeButtons = document.querySelectorAll('.view-btn');
 
         // Filter Elements
@@ -957,6 +1032,10 @@
             muteBtn.addEventListener('click', toggleMute);
             volumeSlider.addEventListener('input', handleVolumeChange);
             fullscreenBtn.addEventListener('click', toggleFullscreen);
+
+            // Copy Listeners
+            copyDirectBtn.addEventListener('click', () => copyToClipboard('direct'));
+            copyQualtricsBtn.addEventListener('click', () => copyToClipboard('qualtrics'));
 
             // Keyboard Shortcuts
             document.addEventListener('keydown', (e) => {
@@ -1270,6 +1349,42 @@
                 videoWrapper.requestFullscreen();
             } else {
                 document.exitFullscreen();
+            }
+        }
+
+        async function copyToClipboard(type) {
+            if (!currentEpisode) return;
+            
+            // Construct full URL
+            // Hardcoded to production URL to ensure correct links even when testing locally
+            const baseUrl = 'https://rotmanlab.github.io/sharktank';
+            const filename = currentType === 'pitch' ? 'pitch.mp4' : 'full.mp4';
+            // Important: Use encodeURI for the folder part to handle spaces in URL, but we need raw path for the file display
+            const encodedPath = `${encodeURI(currentEpisode.folder)}/${filename}`;
+            const fullUrl = `${baseUrl}/${encodedPath}`;
+            
+            let textToCopy = fullUrl;
+            
+            if (type === 'qualtrics') {
+                textToCopy = `<video width="640" height="360" controls> <source src="${fullUrl}" type="video/mp4"> </video>`;
+            }
+            
+            try {
+                await navigator.clipboard.writeText(textToCopy);
+                
+                // Visual feedback
+                const btn = type === 'direct' ? copyDirectBtn : copyQualtricsBtn;
+                const originalText = btn.innerHTML;
+                btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Copied!`;
+                btn.style.color = '#4ade80';
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.style.color = '';
+                }, 2000);
+                
+            } catch (err) {
+                console.error('Failed to copy:', err);
             }
         }
 
