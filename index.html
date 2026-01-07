@@ -708,13 +708,25 @@
             { name: "180 CUP", folder: "180 CUP" },
             { name: "Alaska Glacial Mud", folder: "alaska glacial mud" },
             { name: "Balloon Distractions", folder: "Balloon Distractions" },
+            { name: "Buzzy", folder: "buzzy" },
+            { name: "Chapul", folder: "chapul" },
+            { name: "Cheek'd", folder: "cheekd" },
             { name: "Chocomize", folder: "Chocomize" },
             { name: "Doorbot", folder: "doorbot" },
+            { name: "Eyebloc", folder: "Eyebloc" },
             { name: "Fairytale Wishes", folder: "fairytale wishes" },
+            { name: "FitDeck", folder: "FitDeck" },
+            { name: "Freshly Picked", folder: "freshly picked" },
+            { name: "Garage Door Lock", folder: "Garage Door Lock" },
+            { name: "Happy Feet", folder: "Happy Feet" },
+            { name: "LifeCaps", folder: "Life Caps" },
             { name: "Lite-netics", folder: "Lite-netics" },
             { name: "Man Medals", folder: "Man Medals" },
+            { name: "Moberi", folder: "moberi" },
+            { name: "Nexersys", folder: "Nexersys" },
             { name: "Paparazzi Proposals", folder: "paparazzi proposals" },
             { name: "Postcard on the Run", folder: "postcard on the run" },
+            { name: "Revolights", folder: "Revolights" },
             { name: "Schulzies Bread Pudding", folder: "Schulzies Bread Pudding" },
             { name: "Slawsa", folder: "slawsa" },
             { name: "Sunday Night Slow Jams", folder: "Sunday night slow jams" },
@@ -855,8 +867,12 @@
 
                 // Merge with episodes
                 episodes = episodes.map(ep => {
-                    // Find matching CSV entry (case insensitive)
-                    const match = data.find(d => d.name.toLowerCase() === ep.name.toLowerCase());
+                    // Find matching CSV entry (case insensitive and ignoring apostrophe differences)
+                    const match = data.find(d => {
+                        const csvName = d.name.toLowerCase().replace(/['’]/g, '');
+                        const epName = ep.name.toLowerCase().replace(/['’]/g, '');
+                        return csvName === epName;
+                    });
                     if (match) {
                         return { ...ep, ...match };
                     }
