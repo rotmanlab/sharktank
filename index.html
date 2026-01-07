@@ -86,6 +86,19 @@
             gap: 8px;
             align-items: center;
         }
+        
+        .sidebar-footer {
+            padding-top: 12px;
+            margin-top: 8px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .episode-count {
+            color: var(--text-muted);
+            font-size: 11px;
+            font-weight: 500;
+        }
 
         .filter-group {
             display: flex;
@@ -712,6 +725,9 @@
                     </button>
                 </div>
             </div>
+            <div class="sidebar-footer">
+                <div class="episode-count" id="episodeCount">Showing 0 episodes</div>
+            </div>
         </div>
         <div class="episode-list" id="episodeList">
             <!-- Items injected by JS -->
@@ -871,21 +887,33 @@
             { name: "BeardBrand", folder: "BeardBrand" },
             { name: "BedJet", folder: "BedJet" },
             { name: "Bello Verde", folder: "Bello Verde" },
+            { name: "BetterBack", folder: "BetterBack" },
             { name: "BeverageBoy", folder: "BeverageBoy" },
             { name: "Biaggi", folder: "Biaggi" },
+            { name: "Blendtique", folder: "Blendtique" },
             { name: "Bon Affair", folder: "Bon Affair" },
+            { name: "Bridal Buddy", folder: "Bridal Buddy" },
             { name: "Budsies", folder: "Budsies" },
             { name: "Buzzy", folder: "buzzy" },
             { name: "Chapul", folder: "chapul" },
             { name: "Cheek'd", folder: "cheekd" },
             { name: "Chocomize", folder: "Chocomize" },
+            { name: "DartDrones", folder: "DartDrones" },
+            { name: "dBest Products", folder: "dBest Products" },
+            { name: "Delighted by Dessert", folder: "Delighted by Dessert" },
+            { name: "Dollop Gourmet", folder: "Dollop Gourmet" },
             { name: "Doorbot", folder: "doorbot" },
             { name: "Doorman", folder: "Doorman" },
             { name: "EarthLog", folder: "EarthLog" },
+            { name: "EcoFlower", folder: "EcoFlower" },
+            { name: "ENERGYbits", folder: "ENERGYbits" },
             { name: "EveDrop", folder: "EveDrop" },
             { name: "Eyebloc", folder: "Eyebloc" },
+            { name: "ezpz", folder: "ezpz" },
             { name: "Fairytale Wishes", folder: "fairytale wishes" },
+            { name: "FashionTap", folder: "FashionTap" },
             { name: "FitDeck", folder: "FitDeck" },
+            { name: "Float Baby", folder: "Float Baby" },
             { name: "Fort Magic", folder: "Fort Magic" },
             { name: "Fresh Patch", folder: "Fresh Patch" },
             { name: "Freshly Picked", folder: "freshly picked" },
@@ -893,26 +921,43 @@
             { name: "Garage Door Lock", folder: "Garage Door Lock" },
             { name: "Gato Cafe", folder: "Gato Cafe" },
             { name: "Gold Rush Nugget Bucket", folder: "Gold Rush Nugget Bucket" },
+            { name: "GoodHangups", folder: "GoodHangups" },
             { name: "Happy Feet", folder: "Happy Feet" },
             { name: "HeartPup", folder: "HeartPup" },
             { name: "Heidi Ho", folder: "Heidi Ho" },
             { name: "Hoppy Paws", folder: "Hoppy Paws" },
+            { name: "InchBug", folder: "InchBug" },
             { name: "LifeCaps", folder: "Life Caps" },
+            { name: "Line Cutterz", folder: "Line Cutterz" },
             { name: "Lite-netics", folder: "Lite-netics" },
+            { name: "Little Nomad", folder: "Little Nomad" },
             { name: "Lumi", folder: "Lumi" },
+            { name: "Major Mom", folder: "Major Mom" },
             { name: "Man Medals", folder: "Man Medals" },
             { name: "Man-Pack", folder: "Man-Pack" },
             { name: "Mensch on a Bench", folder: "Mensch on a Bench" },
+            { name: "Milk Snob", folder: "Milk Snob" },
             { name: "Moberi", folder: "moberi" },
+            { name: "Morninghead", folder: "morning head" },
             { name: "Myself Belts", folder: "Myself Belts" },
             { name: "Naja", folder: "Naja" },
             { name: "Nexersys", folder: "Nexersys" },
             { name: "Off the Cob Tortilla Chips", folder: "Off the Cob Tortilla Chips" },
+            { name: "Paleo Diet Foods", folder: "Paleo Diet Foods" },
             { name: "Paparazzi Proposals", folder: "paparazzi proposals" },
+            { name: "Peoples Designs", folder: "Peoples Designs" },
+            { name: "PetPaint", folder: "petpaint" },
+            { name: "PinBlock", folder: "PinBlock" },
+            { name: "PMS Bites", folder: "PMS Bites" },
             { name: "Postcard on the Run", folder: "postcard on the run" },
             { name: "PullyPalz", folder: "PullyPalz" },
+            { name: "Rags to Raches", folder: "Rags to Raches" },
             { name: "Revolights", folder: "Revolights" },
+            { name: "Sandilake", folder: "Sandilake" },
+            { name: "Sarah Oliver Handbags", folder: "Sarah Oliver Handbags " },
             { name: "Schulzies Bread Pudding", folder: "Schulzies Bread Pudding" },
+            { name: "Sealed by Santa", folder: "Sealed by Santa" },
+            { name: "SeedSheet", folder: "SeedSheet" },
             { name: "Skinny Shirt", folder: "Skinny Shirt" },
             { name: "Slawsa", folder: "slawsa" },
             { name: "Storm Stoppers", folder: "Storm Stoppers" },
@@ -921,12 +966,19 @@
             { name: "Ten Thirty One Productions", folder: "Ten Thirty One Productions" },
             { name: "The BoobyPack", folder: "The BoobyPack" },
             { name: "The Caddy Girls", folder: "The Caddy Girls" },
+            { name: "The Good Promise", folder: "The Good Promise" },
+            { name: "The Kooler", folder: "The Kooler" },
             { name: "The Natural Grip", folder: "The Natural Grip" },
             { name: "The Oilerie", folder: "The Oilerie" },
+            { name: "The Sleep Styler", folder: "The Sleep Styler" },
+            { name: "The Style Club", folder: "The Style Club" },
             { name: "TITIN", folder: "TITIN" },
+            { name: "Tranquilo", folder: "Tranquilo" },
             { name: "Tree T Pee", folder: "Tree T Pee" },
             { name: "TurboPup", folder: "TurboPup" },
+            { name: "TuTuBlue", folder: "TuTuBlue" },
             { name: "TycoonRE", folder: "TycoonRE" },
+            { name: "Under the Weather", folder: "Under the Weather" },
             { name: "Virtuix Omni", folder: "Virtuix" },
             { name: "Zipz", folder: "Zipz" }
         ];
@@ -960,6 +1012,7 @@
         const copyDirectBtn = document.getElementById('copyDirectLink');
         const copyQualtricsBtn = document.getElementById('copyQualtricsTag');
         const typeButtons = document.querySelectorAll('.view-btn');
+        const episodeCountEl = document.getElementById('episodeCount');
 
         // Filter Elements
         const filterToggles = document.querySelectorAll('.filter-toggle');
@@ -981,7 +1034,7 @@
             
             // Render
             episodes.sort((a, b) => a.name.localeCompare(b.name));
-            renderList(episodes);
+            applyFilters(); // Initial render with count update
             
             // Search Listener
             searchInput.addEventListener('input', applyFilters);
@@ -1092,13 +1145,14 @@
                 episodes = episodes.map(ep => {
                     // Find matching CSV entry (case insensitive and ignoring apostrophe differences)
                     const match = data.find(d => {
-                        const csvName = d.name.toLowerCase().replace(/['’]/g, '');
-                        const epName = ep.name.toLowerCase().replace(/['’]/g, '');
+                        const csvName = d.name.trim().toLowerCase().replace(/['’]/g, '');
+                        const epName = ep.name.trim().toLowerCase().replace(/['’]/g, '');
                         return csvName === epName;
                     });
                     if (match) {
                         return { ...ep, ...match };
                     }
+                    console.log('No match for:', ep.name);
                     return ep;
                 });
 
@@ -1134,6 +1188,13 @@
             });
 
             renderList(filtered);
+            
+            // Update count
+            const count = filtered.length;
+            const total = episodes.length;
+            episodeCountEl.textContent = count === total 
+                ? `Showing all ${total} entries` 
+                : `Showing ${count} of ${total} entries`;
         }
 
         // --- RENDER FUNCTIONS ---
