@@ -29,6 +29,10 @@
             --badge-f-text: #f472b6;
             --badge-m-bg: rgba(96, 165, 250, 0.15);
             --badge-m-text: #60a5fa;
+            --badge-deal-bg: rgba(74, 222, 128, 0.15);
+            --badge-deal-text: #4ade80;
+            --badge-no-deal-bg: rgba(148, 163, 184, 0.15);
+            --badge-no-deal-text: #94a3b8;
         }
 
         * {
@@ -108,12 +112,13 @@
         }
 
         .episode-item {
-            padding: 10px 12px;
+            padding: 8px 12px;
             border-radius: 6px;
             cursor: pointer;
             margin-bottom: 2px;
-            display: flex;
-            justify-content: space-between;
+            display: grid;
+            grid-template-columns: 1fr auto auto; /* Name | Gender | Deal */
+            gap: 12px;
             align-items: center;
             transition: background 0.1s;
         }
@@ -128,11 +133,7 @@
         }
 
         .episode-info {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            overflow: hidden;
-            flex: 1;
+            min-width: 0; /* Text truncation fix */
         }
 
         .episode-name {
@@ -140,6 +141,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
             color: var(--text-main);
+            display: block;
         }
 
         .episode-item.active .episode-name {
@@ -147,18 +149,49 @@
             color: white;
         }
 
+        /* Metadata Columns */
+        .meta-col-gender, .meta-col-deal {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px; /* Fixed width for alignment */
+        }
+
         .badge {
-            font-size: 10px;
-            font-weight: 600;
-            padding: 2px 6px;
+            font-size: 11px;
+            font-weight: 700;
+            width: 20px;
+            height: 20px;
             border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            flex-shrink: 0;
         }
 
         .badge-f { background: var(--badge-f-bg); color: var(--badge-f-text); }
         .badge-m { background: var(--badge-m-bg); color: var(--badge-m-text); }
+        
+        /* Deal Icons */
+        .deal-icon {
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .deal-yes {
+            color: var(--badge-deal-text);
+            filter: drop-shadow(0 0 8px rgba(74, 222, 128, 0.2));
+        }
+
+        .deal-no {
+            color: var(--badge-no-deal-text);
+            opacity: 0.3;
+        }
+
+        .badge-container { display: contents; } /* Remove container wrapper behavior for grid */
         
         /* Main Content */
         .main-content {
@@ -687,6 +720,10 @@
                             <span class="meta-label">Episode</span>
                             <span class="meta-value" id="gridEpisode">--</span>
                         </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Deal Made</span>
+                            <span class="meta-value" id="gridDeal">--</span>
+                        </div>
                     </div>
 
                     <div class="file-path">
@@ -708,31 +745,51 @@
             { name: "180 CUP", folder: "180 CUP" },
             { name: "Alaska Glacial Mud", folder: "alaska glacial mud" },
             { name: "Balloon Distractions", folder: "Balloon Distractions" },
+            { name: "BeardBrand", folder: "BeardBrand" },
+            { name: "Biaggi", folder: "Biaggi" },
+            { name: "Bon Affair", folder: "Bon Affair" },
             { name: "Buzzy", folder: "buzzy" },
             { name: "Chapul", folder: "chapul" },
             { name: "Cheek'd", folder: "cheekd" },
             { name: "Chocomize", folder: "Chocomize" },
             { name: "Doorbot", folder: "doorbot" },
+            { name: "Doorman", folder: "Doorman" },
+            { name: "EarthLog", folder: "EarthLog" },
             { name: "Eyebloc", folder: "Eyebloc" },
             { name: "Fairytale Wishes", folder: "fairytale wishes" },
             { name: "FitDeck", folder: "FitDeck" },
+            { name: "Fort Magic", folder: "Fort Magic" },
             { name: "Freshly Picked", folder: "freshly picked" },
             { name: "Garage Door Lock", folder: "Garage Door Lock" },
             { name: "Happy Feet", folder: "Happy Feet" },
+            { name: "HeartPup", folder: "HeartPup" },
+            { name: "Heidi Ho", folder: "Heidi Ho" },
             { name: "LifeCaps", folder: "Life Caps" },
             { name: "Lite-netics", folder: "Lite-netics" },
             { name: "Man Medals", folder: "Man Medals" },
+            { name: "Man-Pack", folder: "Man-Pack" },
+            { name: "Mensch on a Bench", folder: "Mensch on a Bench" },
             { name: "Moberi", folder: "moberi" },
+            { name: "Myself Belts", folder: "Myself Belts" },
             { name: "Nexersys", folder: "Nexersys" },
+            { name: "Off the Cob Tortilla Chips", folder: "Off the Cob Tortilla Chips" },
             { name: "Paparazzi Proposals", folder: "paparazzi proposals" },
             { name: "Postcard on the Run", folder: "postcard on the run" },
             { name: "Revolights", folder: "Revolights" },
             { name: "Schulzies Bread Pudding", folder: "Schulzies Bread Pudding" },
+            { name: "Skinny Shirt", folder: "Skinny Shirt" },
             { name: "Slawsa", folder: "slawsa" },
+            { name: "Storm Stoppers", folder: "Storm Stoppers" },
             { name: "Sunday Night Slow Jams", folder: "Sunday night slow jams" },
+            { name: "Table Jack", folder: "Table Jack" },
             { name: "Ten Thirty One Productions", folder: "Ten Thirty One Productions" },
+            { name: "The Caddy Girls", folder: "The Caddy Girls" },
+            { name: "The Natural Grip", folder: "The Natural Grip" },
+            { name: "The Oilerie", folder: "The Oilerie" },
+            { name: "TITIN", folder: "TITIN" },
             { name: "Tree T Pee", folder: "Tree T Pee" },
-            { name: "Virtuix Omni", folder: "Virtuix" }
+            { name: "Virtuix Omni", folder: "Virtuix" },
+            { name: "Zipz", folder: "Zipz" }
         ];
 
         // --- STATE ---
@@ -771,6 +828,7 @@
         const gridGender = document.getElementById('gridGender');
         const gridSeason = document.getElementById('gridSeason');
         const gridEpisode = document.getElementById('gridEpisode');
+        const gridDeal = document.getElementById('gridDeal');
 
         // --- INITIALIZATION ---
         async function init() {
@@ -861,7 +919,8 @@
                         founder: cols[1],
                         gender: cols[2],
                         season: cols[3],
-                        episode: cols[4]
+                        episode: cols[4],
+                        deal: cols[5] // Index 5 is Deal Made (Yes/No)
                     };
                 }).filter(x => x);
 
@@ -892,18 +951,49 @@
                 div.className = `episode-item ${currentEpisode === ep ? 'active' : ''}`;
                 div.onclick = () => loadEpisode(ep);
                 
-                let badge = '';
+                let genderCol = '<div class="meta-col-gender"></div>';
+                let dealCol = '<div class="meta-col-deal"></div>';
+                
+                // Gender Column
                 if (ep.gender) {
                     const g = ep.gender.toUpperCase();
                     const cls = g === 'F' ? 'badge-f' : (g === 'M' ? 'badge-m' : '');
-                    badge = `<span class="badge ${cls}">${g}</span>`;
+                    if (cls) genderCol = `<div class="meta-col-gender"><span class="badge ${cls}">${g}</span></div>`;
+                }
+
+                // Deal Column
+                if (ep.deal) {
+                    const d = ep.deal.toLowerCase();
+                    if (d === 'yes') {
+                        // Dollar Sign for Deal
+                        dealCol = `
+                            <div class="meta-col-deal" title="Deal Made">
+                                <div class="deal-icon deal-yes">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="1" x2="12" y2="23"></line>
+                                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                                    </svg>
+                                </div>
+                            </div>`;
+                    } else if (d === 'no') {
+                        // Subtle Dash for No Deal
+                        dealCol = `
+                            <div class="meta-col-deal" title="No Deal">
+                                <div class="deal-icon deal-no">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                </div>
+                            </div>`;
+                    }
                 }
 
                 div.innerHTML = `
                     <div class="episode-info">
                         <span class="episode-name">${ep.name}</span>
                     </div>
-                    ${badge}
+                    ${genderCol}
+                    ${dealCol}
                 `;
                 episodeListEl.appendChild(div);
             });
@@ -925,6 +1015,7 @@
             gridGender.textContent = ep.gender || "-";
             gridSeason.textContent = ep.season || "-";
             gridEpisode.textContent = ep.episode || "-";
+            gridDeal.textContent = ep.deal || "-";
 
             // Re-render list to show active state
             const term = searchInput.value.toLowerCase();

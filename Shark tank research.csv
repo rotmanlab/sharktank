@@ -1,102 +1,101 @@
-Company/Product,Founder,Gender,Season,Episode
-180 CUP,Soloman Falls,M,5,7
-Tree T Pee,Johnny Georges,M,5,7
-Fairytale Wishes,Debbie Glickman,F,5,3
-Postcard On The Run,Josh Brooks,M,5,1
-Man Medals,Jim O’Brien,M,5,2
-Sunday Night Slow Jams,R Dub,M,5,4
-PetPaint,Abe Geary,M,5,8
-Paparazzi Proposals,James Ambler,M,5,8
-Schulzies Bread Pudding,Sarah Schulz,F,5,8
-Ten Thirty One Productions,Melissa Carbone,F,5,6
-DoorBot,Jamie Siminoff,M,5,9
-Slawsa,Julie Busha,F,5,9
-Chocomize,Joe Dauenhauer,M,5,10
-Lite-netics,Shawn Genenbacher,M,5,12
-Virtuix Omni,Jan Goetgeluk,M,5,11
-Alaska Glacial Mud,Lauren Padawer,F,5,14
-Balloon Distractions,Ben Alexander,M,5,14
-Kymera Body Board,Jason Woods,M,5,7
-Eyebloc,CJ Isakow,M,5,13
-LifeCaps,Daryl Stevenett,M,5,15
-Freshly Picked,Susan Peterson,F,5,15
-FitDeck,Phil Black,M,5,15
-Nexersys,Terry Jones,M,5,16
-Moberi,Ryan Carpenter,M,5,17
-Buzzy,Amy Baxter,F,5,18
-Cheek’d,Lori Cheek,F,5,18
-Revolights,Kent Frankovich,M,5,19
-Buffer Bit,Michael Quinn,M,5,19
-Morninghead,Max Valverde,M,5,21
-Garage Door Lock,Bryan White,M,5,21
-Chapul,Pat Crowley,M,5,21
-Happy Feet,Pat Yates,M,5,23
-Quickstop Fire Sprinkler Tools,Matt Scarpuzzi,M,5,24
-Taylor Robinson Music,Taylor Robinson,M,5,24
-Hargitt Marine Services,Mark Hargitt,M,5,28
-Bon Affair,Jayla Siciliano,F,5,28
-HangEase,Ryan Landis,M,5,27
-The Bouqs Company,John Tabis,M,5,27
-Cerebral Success,Trevor Hiltbrand,M,5,26
-Fort Magic,Erika Pope,F,5,25
-HeartPup,Anastasia Heart,F,6,3
-Table Jack,Steve Christian,M,6,4
-The Oilerie,Curt Campbell,M,6,6
-The Caddy Girls,Meghan Tarmey,F,6,5
-BeardBrand,Eric Bandholz,M,6,7
-Myself Belts,Talia,F,6,7
-TITIN,Patrick Whaley,M,6,7
-Storm Stoppers,John Smith,M,6,9
-Heidi Ho,Heidi Lovig,F,6,9
-The Natural Grip,Ashley Drake,F,6,8
-Man-Pack,Aaron Tweedie,M,6,8
-Zipz,Andrew McMurray,M,6,11
-Biaggi,Stephen Hersh,M,6,11
-Off the Cob Tortilla Chips,Cameron Sheldrake,M,6,10
-EarthLog,Tom Sanetti,M,6,10
-Skinny Shirt,Julie Kalimian,F,6,13
-Doorman,Zander Adell,M,6,13
-Mensch on a Bench,Neal Hoffman,M,6,12
-Hoppy Paws,Trina Barkouras,F,6,12
-EveDrop,Nathan Shaffer,M,6,12
-TycoonRE,Aaron McDaniel,M,6,16
-TurboPup,Kristina Guerrero,F,6,15
-Bello Verde,Joseph Chay,M,6,15
-Lumi,Jesse Genet,F,6,19
-Gold Rush Nugget Bucket,Mark Peterson,M,6,19
-The BoobyPack,Christina Conrad,F,6,19
-FunBites,Bobbie Rhoads,F,6,18
-BeverageBoy,Kevin Waltermire,M,6,18
-Fresh Patch,Andrew Feld,M,6,17
-BedJet,Mark Aramli,M,6,17
-PullyPalz,Julie Thompson,F,6,24
-Naja,Catalina Girald,F,6,22
-Gato Cafe,Adriana Montano,F,6,29
-Paleo Diet Foods,Shauna Sledge,F,6,27
-ezpz,Lindsey Laurain,F,7,13
-Sarah Oliver Handbags ,Sarah Oliver,F,7,10
-BetterBack,Katherine Krug,F,7,20
-Rags to Raches,Rachel Nilsson,F,7,19
-TuTuBlue,Sarah Buxton,F,7,18
-Float Baby,Kristi Ison,F,7,17
-Major Mom,Angela Cody-Rouget,F,7,16
-Dollop Gourmet,Heather Saffer,F,7,27
-FashionTap,Amy Roiland,F,7,26
-InchBug,Brenda Lee Feldman,F,7,25
-The Good Promise,Karen Posada,F,7,22
-PMS Bites,Tania Green,F,7,29
-GoodHangups,Leslie Pierson,F,8,2
-The Style Club,Hillary Novelle Hahn,F,8,7
-EcoFlower,Meagan Bowman,F,8,7
-Sealed by Santa,Sarah Blain,F,8,11
-ENERGYbits,Catherine Arnston,F,8,9
-Milk Snob,Melanie Disbrow,F,8,8
-Sandilake,Melissa Lay,F,8,5
-Little Nomad,Elizabeth Granados,F,8,15
-NicePipes,Lisa Binderow,F,8,13
-Tranquilo,Melissa Gersin,F,8,16
-The Sleep Styler,Tara Brown,F,8,19
-DartDrones,Abby Speicher,F,8,18
-Budsies,Alex Furmansky,M,6,24
-Mamas Milkbox,Elena Petzold,F,8,13
-Line Cutterz,Vance Zahorski,M,8,9
+Company/Product,Founder,Gender,Season,Episode,Deal Made,Funding Sought,Funding Got
+180 CUP,Soloman Falls,M,5,7,Yes,,
+Tree T Pee,Johnny Georges,M,5,7,Yes,,
+Fairytale Wishes,Debbie Glickman,F,5,3,No,,
+Postcard On The Run,Josh Brooks,M,5,1,Yes,,
+Man Medals,Jim O’Brien,M,5,2,No,,
+Sunday Night Slow Jams,R Dub,M,5,4,No,,
+PetPaint,Abe Geary,M,5,8,No,,
+Paparazzi Proposals,James Ambler,M,5,8,Yes,,
+Schulzies Bread Pudding,Sarah Schulz,F,5,8,No,,
+Ten Thirty One Productions,Melissa Carbone,F,5,6,Yes,,
+DoorBot,Jamie Siminoff,M,5,9,No,,
+Slawsa,Julie Busha,F,5,9,No,,
+Chocomize,Joe Dauenhauer,M,5,10,No,,
+Lite-netics,Shawn Genenbacher,M,5,12,No,,
+Virtuix Omni,Jan Goetgeluk,M,5,11,No,,
+Alaska Glacial Mud,Lauren Padawer,F,5,14,No,,
+Balloon Distractions,Ben Alexander,M,5,14,No,,
+Kymera Body Board,Jason Woods,M,5,7,No,,
+Eyebloc,CJ Isakow,M,5,13,No,,
+LifeCaps,Daryl Stevenett,M,5,15,No,,
+Freshly Picked,Susan Peterson,F,5,15,Yes,,
+FitDeck,Phil Black,M,5,15,No,,
+Nexersys,Terry Jones,M,5,16,No,,
+Moberi,Ryan Carpenter,M,5,17,No,,
+Buzzy,Amy Baxter,F,5,18,No,,
+Cheek’d,Lori Cheek,F,5,18,No,,
+Revolights,Kent Frankovich,M,5,19,Yes,,
+Garage Door Lock,Bryan White,M,5,21,Yes,,
+Chapul,Pat Crowley,M,5,21,Yes,,
+Happy Feet,Pat Yates,M,5,23,Yes,,
+Bon Affair,Jayla Siciliano,F,5,28,Yes,,
+Fort Magic,Erika Pope,F,5,25,No,,
+HeartPup,Anastasia Heart,F,6,3,Yes,,
+Table Jack,Steve Christian,M,6,4,No,,
+The Oilerie,Curt Campbell,M,6,6,No,,
+The Caddy Girls,Meghan Tarmey,F,6,5,No,,
+BeardBrand,Eric Bandholz,M,6,7,No,,
+Myself Belts,Talia,F,6,7,Yes,,
+TITIN,Patrick Whaley,M,6,7,Yes,,
+Storm Stoppers,John Smith,M,6,9,No,,
+Heidi Ho,Heidi Lovig,F,6,9,Yes,,
+The Natural Grip,Ashley Drake,F,6,8,Yes,,
+Man-Pack,Aaron Tweedie,M,6,8,No,,
+Zipz,Andrew McMurray,M,6,11,Yes,,
+Biaggi,Stephen Hersh,M,6,11,Yes,,
+Off the Cob Tortilla Chips,Cameron Sheldrake,M,6,10,No,,
+EarthLog,Tom Sanetti,M,6,10,Yes,,
+Skinny Shirt,Julie Kalimian,F,6,13,No,,
+Doorman,Zander Adell,M,6,13,Yes,,
+Mensch on a Bench,Neal Hoffman,M,6,12,Yes,,
+Hoppy Paws,Trina Barkouras,F,6,12,Yes,,
+EveDrop,Nathan Shaffer,M,6,12,No,,
+TycoonRE,Aaron McDaniel,M,6,16,No,,
+TurboPup,Kristina Guerrero,F,6,15,Yes,,
+Bello Verde,Joseph Chay,M,6,15,No,,
+Lumi,Jesse Genet,F,6,19,No,,
+Gold Rush Nugget Bucket,Mark Peterson,M,6,19,Yes,,
+The BoobyPack,Christina Conrad,F,6,19,Yes,,
+FunBites,Bobbie Rhoads,F,6,18,Yes,,
+BeverageBoy,Kevin Waltermire,M,6,18,Yes,,
+Fresh Patch,Andrew Feld,M,6,17,Yes,,
+BedJet,Mark Aramli,M,6,17,No,,
+PullyPalz,Julie Thompson,F,6,24,Yes,,
+Naja,Catalina Girald,F,6,22,No,,
+Gato Cafe,Adriana Montano,F,6,29,No,,
+Paleo Diet Foods,Shauna Sledge,F,6,27,No,,
+ezpz,Lindsey Laurain,F,7,13,No,,
+Sarah Oliver Handbags ,Sarah Oliver,F,7,10,Yes,,
+BetterBack,Katherine Krug,F,7,20,Yes,,
+Rags to Raches,Rachel Nilsson,F,7,19,Yes,,
+TuTuBlue,Sarah Buxton,F,7,18,No,,
+Float Baby,Kristi Ison,F,7,17,No,,
+Major Mom,Angela Cody-Rouget,F,7,16,No,,
+Dollop Gourmet,Heather Saffer,F,7,27,Yes,,
+FashionTap,Amy Roiland,F,7,26,No,,
+InchBug,Brenda Lee Feldman,F,7,25,No,,
+The Good Promise,Karen Posada,F,7,22,No,,
+PMS Bites,Tania Green,F,7,29,No,,
+GoodHangups,Leslie Pierson,F,8,2,Yes,,
+The Style Club,Hillary Novelle Hahn,F,8,7,Yes,,
+EcoFlower,Meagan Bowman,F,8,7,Yes,,
+Sealed by Santa,Sarah Blain,F,8,11,No,,
+ENERGYbits,Catherine Arnston,F,8,9,No,,
+Milk Snob,Melanie Disbrow,F,8,8,Yes,,
+Sandilake,Melissa Lay,F,8,5,No,,
+Little Nomad,Elizabeth Granados,F,8,15,No,,
+Tranquilo,Melissa Gersin,F,8,16,Yes,,
+The Sleep Styler,Tara Brown,F,8,19,Yes,,
+DartDrones,Abby Speicher,F,8,18,Yes,,
+Budsies,Alex Furmansky,M,6,24,No,,
+Line Cutterz,Vance Zahorski,M,8,9,Yes,,
+The Kooler,Stan Efferding,M,8,15,Yes,,
+dBest Products,Richard Elden,M,8,15,Yes,,
+PinBlock,Vladislav Smolyanskyy,M,8,13,Yes,,
+Under the Weather,Rick Pescovitz,M,8,20,Yes,,
+SeedSheet,Cam MacKugler,M,8,20,Yes,,
+Blendtique,Billy Dim,M,8,19,Yes,,
+Peoples Designs,Tyler Peoples,M,8,23,Yes,,
+Bridal Buddy,Heather Stenlake,F,8,24,Yes,,
+Delighted by Dessert,Makenzie Marzluff,F,9,4,Yes,,
