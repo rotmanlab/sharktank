@@ -31,6 +31,8 @@
             --badge-m-text: #60a5fa;
             --badge-deal-bg: rgba(74, 222, 128, 0.15);
             --badge-deal-text: #4ade80;
+            --badge-offer-bg: rgba(251, 146, 60, 0.15);
+            --badge-offer-text: #fb923c;
             --badge-no-deal-bg: rgba(148, 163, 184, 0.15);
             --badge-no-deal-text: #94a3b8;
         }
@@ -175,8 +177,8 @@
             cursor: pointer;
             margin-bottom: 2px;
             display: grid;
-            grid-template-columns: 1fr auto auto; /* Name | Gender | Deal */
-            gap: 12px;
+            grid-template-columns: 1fr auto auto auto; /* Name | Gender | Percent | Status */
+            gap: 8px;
             align-items: center;
             transition: background 0.1s;
         }
@@ -244,9 +246,22 @@
             filter: drop-shadow(0 0 8px rgba(74, 222, 128, 0.2));
         }
 
+        .deal-offer {
+            color: var(--badge-offer-text);
+        }
+
         .deal-no {
             color: var(--badge-no-deal-text);
             opacity: 0.3;
+        }
+
+        .percent-val {
+            font-size: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-muted);
+            font-weight: 500;
+            text-align: right;
+            min-width: 32px;
         }
 
         .badge-container { display: contents; } /* Remove container wrapper behavior for grid */
@@ -842,8 +857,20 @@
                             <span class="meta-value" id="gridEpisode">--</span>
                         </div>
                         <div class="meta-item">
+                            <span class="meta-label">Deal Offered</span>
+                            <span class="meta-value" id="gridDealOffered">--</span>
+                        </div>
+                        <div class="meta-item">
                             <span class="meta-label">Deal Made</span>
                             <span class="meta-value" id="gridDeal">--</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Valuation Sought</span>
+                            <span class="meta-value" id="gridValSought">--</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Valuation Result</span>
+                            <span class="meta-value" id="gridValGot">--</span>
                         </div>
                     </div>
 
@@ -942,6 +969,7 @@
             { name: "Myself Belts", folder: "Myself Belts" },
             { name: "Naja", folder: "Naja" },
             { name: "Nexersys", folder: "Nexersys" },
+            { name: "NicePipes", folder: "NicePipes" },
             { name: "Off the Cob Tortilla Chips", folder: "Off the Cob Tortilla Chips" },
             { name: "Paleo Diet Foods", folder: "Paleo Diet Foods" },
             { name: "Paparazzi Proposals", folder: "paparazzi proposals" },
@@ -975,7 +1003,6 @@
             { name: "TITIN", folder: "TITIN" },
             { name: "Tranquilo", folder: "Tranquilo" },
             { name: "Tree T Pee", folder: "Tree T Pee" },
-            { name: "TurboPup", folder: "TurboPup" },
             { name: "TuTuBlue", folder: "TuTuBlue" },
             { name: "TycoonRE", folder: "TycoonRE" },
             { name: "Under the Weather", folder: "Under the Weather" },
@@ -1025,7 +1052,10 @@
         const gridGender = document.getElementById('gridGender');
         const gridSeason = document.getElementById('gridSeason');
         const gridEpisode = document.getElementById('gridEpisode');
+        const gridDealOffered = document.getElementById('gridDealOffered');
         const gridDeal = document.getElementById('gridDeal');
+        const gridValSought = document.getElementById('gridValSought');
+        const gridValGot = document.getElementById('gridValGot');
 
         // --- INITIALIZATION ---
         async function init() {
@@ -1137,7 +1167,11 @@
                         gender: cols[2],
                         season: cols[3],
                         episode: cols[4],
-                        deal: cols[5] // Index 5 is Deal Made (Yes/No)
+                        dealOffered: cols[5],
+                        deal: cols[7],
+                        valSought: cols[8],
+                        valGot: cols[9],
+                        percent: cols[10]
                     };
                 }).filter(x => x);
 
@@ -1207,6 +1241,7 @@
                 
                 let genderCol = '<div class="meta-col-gender"></div>';
                 let dealCol = '<div class="meta-col-deal"></div>';
+                let percentCol = '<div class="percent-val"></div>';
                 
                 // Gender Column
                 if (ep.gender) {
@@ -1215,31 +1250,49 @@
                     if (cls) genderCol = `<div class="meta-col-gender"><span class="badge ${cls}">${g}</span></div>`;
                 }
 
-                // Deal Column
-                if (ep.deal) {
-                    const d = ep.deal.toLowerCase();
-                    if (d === 'yes') {
-                        // Dollar Sign for Deal
-                        dealCol = `
-                            <div class="meta-col-deal" title="Deal Made">
-                                <div class="deal-icon deal-yes">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                        <line x1="12" y1="1" x2="12" y2="23"></line>
-                                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-                                    </svg>
-                                </div>
-                            </div>`;
-                    } else if (d === 'no') {
-                        // Subtle Dash for No Deal
-                        dealCol = `
-                            <div class="meta-col-deal" title="No Deal">
-                                <div class="deal-icon deal-no">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    </svg>
-                                </div>
-                            </div>`;
+                // Deal Column & Percent
+                const d = (ep.deal || '').toLowerCase();
+                const offered = (ep.dealOffered || '').toLowerCase();
+
+                if (d === 'yes') {
+                    // Dollar Sign for Deal
+                    dealCol = `
+                        <div class="meta-col-deal" title="Deal Made">
+                            <div class="deal-icon deal-yes">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="12" y1="1" x2="12" y2="23"></line>
+                                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                                </svg>
+                            </div>
+                        </div>`;
+                    
+                    // Show Percentage
+                    if (ep.percent && ep.percent !== '-' && ep.percent !== 'N/A') {
+                        const val = parseFloat(ep.percent);
+                        if (!isNaN(val)) {
+                            percentCol = `<div class="percent-val">${Math.round(val)}%</div>`;
+                        }
                     }
+                } else if (offered === 'yes') {
+                    // Handshake for Offer but No Deal
+                    dealCol = `
+                        <div class="meta-col-deal" title="Deal Offered (No Deal)">
+                            <div class="deal-icon deal-offer">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20.2 14.9L20.2 14.9C20.6 15.3 20.6 15.9 20.2 16.3L16.3 20.2C15.9 20.6 15.3 20.6 14.9 20.2L11 16.3L7.1 20.2C6.7 20.6 6.1 20.6 5.7 20.2L1.8 16.3C1.4 15.9 1.4 15.3 1.8 14.9L14.9 1.8C15.3 1.4 15.9 1.4 16.3 1.8L20.2 5.7C20.6 6.1 20.6 6.7 20.2 7.1L16.3 11L20.2 14.9Z"></path>
+                                </svg>
+                            </div>
+                        </div>`;
+                } else {
+                    // Subtle Dash for No Offer
+                    dealCol = `
+                        <div class="meta-col-deal" title="No Offer">
+                            <div class="deal-icon deal-no">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                            </div>
+                        </div>`;
                 }
 
                 div.innerHTML = `
@@ -1247,6 +1300,7 @@
                         <span class="episode-name">${ep.name}</span>
                     </div>
                     ${genderCol}
+                    ${percentCol}
                     ${dealCol}
                 `;
                 episodeListEl.appendChild(div);
@@ -1269,7 +1323,17 @@
             gridGender.textContent = ep.gender || "-";
             gridSeason.textContent = ep.season || "-";
             gridEpisode.textContent = ep.episode || "-";
+            gridDealOffered.textContent = ep.dealOffered || "-";
             gridDeal.textContent = ep.deal || "-";
+            
+            // Format Currency
+            const formatM = (val) => {
+                if (!val || val === '-' || val === 'N/A') return '-';
+                return `$${val}M`;
+            };
+            
+            gridValSought.textContent = formatM(ep.valSought);
+            gridValGot.textContent = formatM(ep.valGot);
 
             // Re-render list to show active state
             applyFilters();
