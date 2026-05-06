@@ -711,6 +711,10 @@
                     <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
                 </svg>
                 Shark Tank Library
+                <span id="devLinks" style="display:none; margin-left:auto; gap:6px;">
+                    <a href="/checker" target="_blank" rel="noopener" style="padding:4px 10px; font-size:11px; font-weight:500; color:var(--text-muted); background:var(--bg-element); border:1px solid var(--border); border-radius:6px; text-decoration:none;">Checker</a>
+                    <a href="/editor" target="_blank" rel="noopener" style="padding:4px 10px; font-size:11px; font-weight:500; color:var(--text-muted); background:var(--bg-element); border:1px solid var(--border); border-radius:6px; text-decoration:none;">Editor</a>
+                </span>
             </div>
             <div class="search-container">
                 <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1007,7 +1011,38 @@
             { name: "TycoonRE", folder: "TycoonRE" },
             { name: "Under the Weather", folder: "Under the Weather" },
             { name: "Virtuix Omni", folder: "Virtuix" },
-            { name: "Zipz", folder: "Zipz" }
+            { name: "Zipz", folder: "Zipz" },
+            // --- New (no deal offered) entries; folders use underscores instead of spaces ---
+            { name: "Abii", folder: "Abii" },
+            { name: "Chub Rub Patch", folder: "Chub_Rub_Patch" },
+            { name: "Coco Taps", folder: "Coco_Taps" },
+            { name: "Creation Nation", folder: "Creation_Nation" },
+            { name: "Doughp", folder: "Doughp" },
+            { name: "DreamPad", folder: "DreamPad" },
+            { name: "Dude Robe", folder: "Dude_Robe" },
+            { name: "Easy Treezy", folder: "Easy_Treezy" },
+            { name: "Elliptical Stroller", folder: "Elliptical_Stroller" },
+            { name: "Flip-It Cap", folder: "Flip-It_Cap" },
+            { name: "Fresh Bellies", folder: "Fresh_Bellies" },
+            { name: "Happi Floss", folder: "Happi_Floss" },
+            { name: "Honey Bunchies", folder: "Honey_Bunchies" },
+            { name: "KidsLuv", folder: "KidsLuv" },
+            { name: "Kit Lender", folder: "Kit_Lender" },
+            { name: "Liberate Shark", folder: "Liberate_Shark" },
+            { name: "Lion Latch", folder: "Lion_Latch" },
+            { name: "Luma Soda", folder: "Luma_Soda" },
+            { name: "Pawnix", folder: "Pawnix" },
+            { name: "Peanut Butter Pump", folder: "Peanut_Butter_Pump" },
+            { name: "Pili Hunters", folder: "Pili_Hunters" },
+            { name: "Plop Star", folder: "Plop_Star" },
+            { name: "Recharj", folder: "Recharj" },
+            { name: "Rule Breaker Snacks", folder: "Rule_Breaker_Snacks" },
+            { name: "Salad Sling", folder: "Salad_Sling" },
+            { name: "See The Way I See", folder: "See_The_Way_I_See" },
+            { name: "Swoveralls", folder: "Swoveralls" },
+            { name: "TA3", folder: "TA3" },
+            { name: "The Christmas Tree Hugger", folder: "The_Christmas_Tree_Hugger" },
+            { name: "Worthy Brands", folder: "Worthy_Brands" }
         ];
 
         // --- STATE ---
@@ -1059,6 +1094,15 @@
 
         // --- INITIALIZATION ---
         async function init() {
+            // Show the V editor link only when viewing on localhost (i.e. running the
+            // Express dev server). Hidden on the deployed GitHub Pages site so other
+            // researchers don't see it.
+            const host = window.location.hostname;
+            if (host === 'localhost' || host === '127.0.0.1' || host === '0.0.0.0') {
+                const devLinks = document.getElementById('devLinks');
+                if (devLinks) devLinks.style.display = 'inline-flex';
+            }
+
             // Load CSV Data
             await loadCSVData();
             
@@ -1147,37 +1191,93 @@
         }
 
         // --- CSV LOADING ---
+        // Parses one CSV line, respecting double-quoted fields that may contain commas.
+        // Doubled quotes ("") inside a quoted field become a single quote.
+        function parseCSVLine(line) {
+            const out = [];
+            let cur = '';
+            let inQuotes = false;
+            for (let i = 0; i < line.length; i++) {
+                const ch = line[i];
+                if (inQuotes) {
+                    if (ch === '"') {
+                        if (line[i + 1] === '"') { cur += '"'; i++; }
+                        else { inQuotes = false; }
+                    } else {
+                        cur += ch;
+                    }
+                } else {
+                    if (ch === ',') { out.push(cur); cur = ''; }
+                    else if (ch === '"') { inQuotes = true; }
+                    else { cur += ch; }
+                }
+            }
+            out.push(cur);
+            return out;
+        }
+
+        // Splits CSV text into logical rows, respecting newlines inside quoted fields.
+        function splitCSVRows(text) {
+            const rows = [];
+            let cur = '';
+            let inQuotes = false;
+            for (let i = 0; i < text.length; i++) {
+                const ch = text[i];
+                if (ch === '"') {
+                    if (inQuotes && text[i + 1] === '"') { cur += '""'; i++; }
+                    else { inQuotes = !inQuotes; cur += ch; }
+                } else if ((ch === '\n' || ch === '\r') && !inQuotes) {
+                    if (ch === '\r' && text[i + 1] === '\n') i++;
+                    if (cur.length > 0) { rows.push(cur); cur = ''; }
+                } else {
+                    cur += ch;
+                }
+            }
+            if (cur.length > 0) rows.push(cur);
+            return rows;
+        }
+
         async function loadCSVData() {
             try {
-                // Fetch the CSV file from root
                 const response = await fetch('Shark%20tank%20research.csv');
                 if (!response.ok) throw new Error("CSV not found");
                 const text = await response.text();
-                
-                // Simple CSV Parser
-                const lines = text.split('\n').map(l => l.trim()).filter(l => l);
-                // Skip header
-                const data = lines.slice(1).map(line => {
-                    // Handle commas inside quotes if complex, but simple split matches file format
-                    const cols = line.split(','); 
-                    if (cols.length < 5) return null;
-                    return {
-                        name: cols[0],
-                        founder: cols[1],
-                        gender: cols[2],
-                        season: cols[3],
-                        episode: cols[4],
-                        dealOffered: cols[5],
-                        deal: cols[7],
-                        valSought: cols[8],
-                        valGot: cols[9],
-                        percent: cols[10]
-                    };
-                }).filter(x => x);
 
-                // Merge with episodes
+                const rows = splitCSVRows(text);
+                if (rows.length < 2) return;
+
+                const headers = parseCSVLine(rows[0]).map(h => h.trim());
+                const idx = (name) => headers.indexOf(name);
+
+                const colName = idx('Company/Product');
+                const colFounder = idx('Founder');
+                const colGender = idx('Gender');
+                const colSeason = idx('Season');
+                const colEpisode = idx('Episode');
+                const colDealOffered = idx('Deal Offered');
+                const colDeal = idx('Deal Made');
+                const colValSought = idx('Valuation Sought (in M)');
+                const colValGot = idx('Valuation Got (M)');
+                const colPercent = idx('Percentage Got');
+
+                const data = rows.slice(1).map(row => {
+                    const cols = parseCSVLine(row);
+                    if (!cols[colName]) return null;
+                    return {
+                        name: cols[colName] || '',
+                        founder: cols[colFounder] || '',
+                        gender: cols[colGender] || '',
+                        season: cols[colSeason] || '',
+                        episode: cols[colEpisode] || '',
+                        dealOffered: cols[colDealOffered] || '',
+                        deal: cols[colDeal] || '',
+                        valSought: cols[colValSought] || '',
+                        valGot: cols[colValGot] || '',
+                        percent: cols[colPercent] || ''
+                    };
+                }).filter(x => x && (x.dealOffered === 'Yes' || x.dealOffered === 'No'));
+
                 episodes = episodes.map(ep => {
-                    // Find matching CSV entry (case insensitive and ignoring apostrophe differences)
                     const match = data.find(d => {
                         const csvName = d.name.trim().toLowerCase().replace(/['’]/g, '');
                         const epName = ep.name.trim().toLowerCase().replace(/['’]/g, '');

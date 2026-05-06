@@ -1,0 +1,11 @@
+.DS_Store
+
+# V editor is a local-only dev tool (Node.js Express app) and is not part of
+# the deployed GitHub Pages site. Keep it out of the repo so other researchers
+# don't see it on prod.
+veditor/
+
+# Environment files contain API keys and must never be committed.
+.env
+.env.local
+.env.*.local
